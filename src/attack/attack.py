@@ -375,15 +375,17 @@ if __name__ == "__main__":
             device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
 
             model_kwargs = {"low_cpu_mem_usage": True, "use_cache": True}
-            model = AutoModelForCausalLM.from_pretrained(
-                model_path,
-                torch_dtype=torch.float16,
-                trust_remote_code=True,
-                **model_kwargs
-            ).to(device).eval()
+            # model = AutoModelForCausalLM.from_pretrained(
+            #     model_path,
+            #     torch_dtype=torch.float16,
+            #     trust_remote_code=True,
+            #     **model_kwargs
+            # ).to(device).eval()
+            model = AutoModelForCausalLM.from_pretrained("cais/HarmBench-Llama-2-13b-cls")
 
             # use_fast=False here for Llama
-            tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side='left', use_fast=False) 
+            # tokenizer = AutoTokenizer.from_pretrained(model_path, padding_side='left', use_fast=False)
+            tokenizer = AutoTokenizer.from_pretrained("cais/HarmBench-Llama-2-13b-cls")
             tokenizer.pad_token = tokenizer.eos_token
             log_yellow('[*] Target model loaded!')
             conv_prompt = LLAMA2_PROMPT_LONG['prompt']
